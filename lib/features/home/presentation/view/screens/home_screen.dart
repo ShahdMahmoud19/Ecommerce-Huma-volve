@@ -1,12 +1,12 @@
-import 'package:ecommerce_app_huma_volve/features/home/cubit/home_cubit.dart';
-import 'package:ecommerce_app_huma_volve/features/home/cubit/home_state.dart';
+import 'package:ecommerce_app_huma_volve/core/dummy_data.dart';
+import 'package:ecommerce_app_huma_volve/core/theme.dart';
+import 'package:ecommerce_app_huma_volve/features/home/presentation/view_model/home_cubit.dart';
+import 'package:ecommerce_app_huma_volve/features/home/presentation/view_model/home_state.dart';
+import 'package:ecommerce_app_huma_volve/features/home/presentation/widgets/category_chip.dart';
+import 'package:ecommerce_app_huma_volve/features/home/presentation/widgets/product_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/dummy_data.dart';
-import '../../../core/theme.dart';
-import '../widgets/product_card.dart';
-import '../widgets/category_chip.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
