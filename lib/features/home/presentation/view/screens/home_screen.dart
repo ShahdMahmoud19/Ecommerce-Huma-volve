@@ -7,7 +7,6 @@ import 'package:ecommerce_app_huma_volve/features/home/presentation/widgets/prod
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -17,10 +16,22 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedCategoryIndex = 0;
+  late final ScrollController scrollController;
   @override
   void initState() {
     context.read<HomeCubit>().loadHomeData();
+    scrollController = ScrollController();
+    scrollController.addListener(_onlisten);
     super.initState();
+  }
+
+  void _onlisten() {
+    final double pixel = scrollController.position.pixels;
+    final double max = scrollController.position.maxScrollExtent;
+    final int triggerDistance = 200;
+    if (pixel >= max - triggerDistance) {
+      context.read<HomeCubit>().loadMoreproducts();
+    }
   }
 
   @override
@@ -120,7 +131,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       buildWhen: (previous, current) {
                         if (current is ProductLoading ||
                             current is ProductSuccess ||
-                            current is ProductFailure) {
+                            current is ProductFailure ||
+                            current is ProductsLoadingMore ||
+                            current is ProductsLoadingError) {
                           return false;
                         } else {
                           return true;
@@ -195,6 +208,19 @@ class _HomeScreenState extends State<HomeScreen> {
                       delegate: SliverChildBuilderDelegate((context, index) {
                         return ProductCard(productModel: products[index]);
                       }, childCount: products.length),
+                    ),
+                  );
+                }
+                return SliverToBoxAdapter(child: SizedBox.shrink());
+              },
+            ),
+            BlocBuilder<HomeCubit, HomeState>(
+              builder: (context, state) {
+                if (state is ProductsLoadingMore) {
+                  return SliverToBoxAdapter(
+                    child: Padding(
+                      padding: EdgeInsets.all(30),
+                      child: CircularProgressIndicator(),
                     ),
                   );
                 }

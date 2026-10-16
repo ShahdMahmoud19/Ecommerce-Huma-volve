@@ -32,3 +32,8 @@ class ProductFailure extends HomeState {
 
   ProductFailure(this.error);
 }
+class ProductsLoadingMore extends HomeState {}
+class ProductsLoadingError extends HomeState {
+    final String error;
+ProductsLoadingError(this.error);
+}
